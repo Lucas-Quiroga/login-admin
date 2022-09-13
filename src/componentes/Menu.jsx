@@ -1,11 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import Registar from "./Registrar";
+import Listar from "./Listar";
+import Estadistica from "./Estadistica";
 
-export default function Menu() {
+export default function Menu({ usu }) {
+  //controlamos el estado de las opciones que vamos eligiendo
+  const [reg, setReg] = useState("");
+  const [lis, setLis] = useState("");
+  const [est, setEst] = useState("");
+
+  const cerrarSesion = () => {
+    //funcion cierra la sesion y limpia los inputs
+    document.getElementById("caja_menu").style.display = "none";
+    document.getElementById("form_login").style.display = "block";
+    document.getElementById("txtusu").value = "";
+    document.getElementById("txtpas").value = "";
+    document.getElementById("txtusu").focus();
+  };
+
+  //funciones que muestran componentes en base al link que eligieron
+  const op_registrar = () => {
+    setReg("1");
+    setLis("0");
+    setEst("0");
+  };
+
+  const op_listar = () => {
+    setReg("0");
+    setLis("1");
+    setEst("0");
+  };
+
+  const op_estadistica = () => {
+    setReg("0");
+    setLis("0");
+    setEst("1");
+  };
   return (
     <>
       <div id="caja_menu" style={{ textAlign: "left" }}>
-        <strong className="h3">Bienvenido Usuario :</strong>
+        <strong className="h3">Bienvenido Usuario : {usu.toUpperCase()}</strong>
 
         <nav
           className="navbar navbar-expand-lg navbar-light bg-light"
@@ -29,19 +64,32 @@ export default function Menu() {
             </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div className="navbar-nav">
-                <NavLink to="" className="nav-link  h5  text-center">
+                <NavLink
+                  to=""
+                  className="nav-link  h5  text-center"
+                  onClick={op_registrar}
+                >
                   Registrar
                 </NavLink>
-                <NavLink to="" className="nav-link  h5  text-center">
+                <NavLink
+                  to=""
+                  className="nav-link  h5  text-center"
+                  onClick={op_listar}
+                >
                   Listar
                 </NavLink>
-                <NavLink to="" className="nav-link  h5  text-center">
+                <NavLink
+                  to=""
+                  className="nav-link  h5  text-center"
+                  onClick={op_estadistica}
+                >
                   Estadistica
                 </NavLink>
                 <a
                   className="nav-link  h5  text-center"
                   style={{ color: "blue" }}
                   href=" "
+                  onClick={cerrarSesion}
                 >
                   Cerrar Sesión
                 </a>
@@ -50,6 +98,10 @@ export default function Menu() {
           </div>
         </nav>
       </div>
+
+      {reg === "1" && <Registar />}
+      {lis === "1" && <Listar />}
+      {est === "1" && <Estadistica />}
     </>
   );
 }

@@ -79,7 +79,7 @@ export default function Login() {
       </form>
 
       {/* condición que muestra el menu si el estado se transforma en true */}
-      {miLogin === "true" && <Menu />}
+      {miLogin === "true" && <Menu usu={usu} />}
     </div>
   );
 }
