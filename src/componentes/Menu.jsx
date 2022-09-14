@@ -4,13 +4,18 @@ import Registar from "./Registrar";
 import Listar from "./Listar";
 import Estadistica from "./Estadistica";
 
-export default function Menu({ usu }) {
+export default function Menu() {
+  //recuperamos el dato del usuario con el localStorage
+  const [usu] = useState(localStorage.getItem("usu"));
   //controlamos el estado de las opciones que vamos eligiendo
   const [reg, setReg] = useState("");
   const [lis, setLis] = useState("");
   const [est, setEst] = useState("");
 
   const cerrarSesion = () => {
+    //remueve del localStorage los datos del usuario permitiendo al estado pasarlo a false y que muestre el inicio de sesion
+    localStorage.removeItem("usu");
+    localStorage.removeItem("miLogin");
     //funcion cierra la sesion y limpia los inputs
     document.getElementById("caja_menu").style.display = "none";
     document.getElementById("form_login").style.display = "block";

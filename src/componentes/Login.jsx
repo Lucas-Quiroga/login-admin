@@ -2,7 +2,18 @@ import React, { useState } from "react";
 import Menu from "./Menu";
 
 export default function Login() {
-  const [miLogin, setMiLogin] = useState("false");
+  //comprobamos que la sesion esté activa
+  const comprobarSesion = () => {
+    let sesion = localStorage.getItem("miLogin");
+    if (sesion) {
+      return JSON.parse(sesion); //true
+    } else {
+      return false;
+    }
+  };
+
+  //estados
+  const [miLogin, setMiLogin] = useState(comprobarSesion());
   const [usu, setUsu] = useState("");
   const [pas, setPas] = useState("");
 
@@ -20,10 +31,13 @@ export default function Login() {
       alert("complete los datos faltantes");
     } else {
       if (usu === "admin" && pas === "123") {
-        setMiLogin("true");
+        setMiLogin(true);
+        //en el localStorage me va a quedar registro de la sesion "activa" junto con el nombre de usuario
+        localStorage.setItem("miLogin", true);
+        localStorage.setItem("usu", usu);
         document.getElementById("form_login").style.display = "none";
       } else {
-        setMiLogin("false");
+        setMiLogin(false);
         alert("error de usuario y/o contraseña!");
         document.getElementById("txtusu").value = "";
         document.getElementById("txtpas").value = "";
@@ -37,49 +51,50 @@ export default function Login() {
       className="container"
       style={{ background: "lightgray", marginTop: 20, padding: 20 }}
     >
-      <form id="form_login">
-        <div>
-          <h1 style={{ color: "blue", textalign: "center" }}>LOGIN</h1>
-          <label htmlFor="txtusu">
-            <strong>Username</strong>
-          </label>
+      {miLogin === false ? (
+        <form id="form_login">
+          <div>
+            <h1 style={{ color: "blue", textalign: "center" }}>LOGIN</h1>
+            <label htmlFor="txtusu">
+              <strong>Username</strong>
+            </label>
+            <input
+              type="text"
+              //id del input
+              id="txtusu"
+              style={{ textAlign: "center" }}
+              className="form-control"
+              // capturamos el dato
+              onChange={(e) => setUsu(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="txtpas">
+              <strong>Password</strong>
+            </label>
+            <input
+              type="password"
+              //id del input
+              id="txtpas"
+              style={{ textAlign: "center" }}
+              className="form-control"
+              // capturamos el dato
+              onChange={(e) => setPas(e.target.value)}
+              required
+            />
+          </div>
+          <br />
           <input
-            type="text"
-            //id del input
-            id="txtusu"
-            style={{ textAlign: "center" }}
-            className="form-control"
-            // capturamos el dato
-            onChange={(e) => setUsu(e.target.value)}
-            required
+            type="submit"
+            onClick={iniciarSesion}
+            className="btn btn-primary"
+            value="Login"
           />
-        </div>
-        <div>
-          <label htmlFor="txtpas">
-            <strong>Password</strong>
-          </label>
-          <input
-            type="password"
-            //id del input
-            id="txtpas"
-            style={{ textAlign: "center" }}
-            className="form-control"
-            // capturamos el dato
-            onChange={(e) => setPas(e.target.value)}
-            required
-          />
-        </div>
-        <br />
-        <input
-          type="submit"
-          onClick={iniciarSesion}
-          className="btn btn-primary"
-          value="Login"
-        />
-      </form>
-
-      {/* condición que muestra el menu si el estado se transforma en true */}
-      {miLogin === "true" && <Menu usu={usu} />}
+        </form>
+      ) : (
+        <Menu />
+      )}
     </div>
   );
 }
