@@ -49,49 +49,59 @@ export default function Login() {
   return (
     <div
       className="container"
-      style={{ background: "lightgray", marginTop: 20, padding: 20 }}
+      style={{
+        background: "#F8F8FF",
+        marginTop: "12em",
+        padding: 20,
+        borderRadius: 20,
+      }}
     >
       {miLogin === false ? (
-        <form id="form_login">
-          <div>
-            <h1 style={{ color: "blue", textalign: "center" }}>LOGIN</h1>
-            <label htmlFor="txtusu">
-              <strong>Username</strong>
-            </label>
+        <div>
+          <form id="form_login">
+            <div>
+              <h1 style={{ color: "blue", textalign: "center" }}>LOGIN</h1>
+              <label htmlFor="txtusu">
+                <strong>Username</strong>
+              </label>
+              <input
+                type="text"
+                //id del input
+                id="txtusu"
+                style={{ textAlign: "center" }}
+                className="form-control"
+                // capturamos el dato
+                onChange={(e) => setUsu(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="txtpas">
+                <strong>Password</strong>
+              </label>
+              <input
+                type="password"
+                //id del input
+                id="txtpas"
+                style={{ textAlign: "center" }}
+                className="form-control"
+                // capturamos el dato
+                onChange={(e) => setPas(e.target.value)}
+                required
+              />
+            </div>
+            <br />
             <input
-              type="text"
-              //id del input
-              id="txtusu"
-              style={{ textAlign: "center" }}
-              className="form-control"
-              // capturamos el dato
-              onChange={(e) => setUsu(e.target.value)}
-              required
+              type="submit"
+              onClick={iniciarSesion}
+              className="btn btn-primary"
+              value="Login"
             />
-          </div>
-          <div>
-            <label htmlFor="txtpas">
-              <strong>Password</strong>
-            </label>
-            <input
-              type="password"
-              //id del input
-              id="txtpas"
-              style={{ textAlign: "center" }}
-              className="form-control"
-              // capturamos el dato
-              onChange={(e) => setPas(e.target.value)}
-              required
-            />
-          </div>
+          </form>
           <br />
-          <input
-            type="submit"
-            onClick={iniciarSesion}
-            className="btn btn-primary"
-            value="Login"
-          />
-        </form>
+          <h6>Username: admin</h6>
+          <h6>Password: 123</h6>
+        </div>
       ) : (
         <Menu />
       )}
